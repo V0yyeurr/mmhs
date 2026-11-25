@@ -112,6 +112,7 @@ public:
 		this->tail = tail;
 	}
 
+	//debug
 	void print_stack() {
 		Token* aux = head;
 		while(aux != nullptr) {
@@ -145,6 +146,7 @@ public:
 		return new_token;
 	}
 	
+	//debug
 	void print_tokens() {
 		tokens->print_stack();
 	}
@@ -184,11 +186,6 @@ int main () {
 	Token* t2 = new Token("float");
 	s->push(t);
 	s->push(t2);
-	s->print_tokens();
-	Token* n = s->pop();
-	std::cout << "\n\n";
-	n->print_token();
-	std::cout << "\n\n";
 	s->print_tokens();
 	return 0;
 }
