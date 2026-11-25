@@ -15,12 +15,12 @@ enum Type {
 
 class Token{
 private:
-
+public:
+	
 	Token* next;
 	std::string content;
 	Type type;
 	
-public:
 	Token() {
 		next = nullptr;
 		type = ERR;
@@ -54,7 +54,7 @@ public:
 	void set_next(Token* token){
 		this->next = token;
 	}
-
+	
 	void set_type(Type type){
 		this->type = type;
 	}
@@ -89,7 +89,11 @@ public:
 	}
 	
 	Token* pop_token(){
-		assert(0 && "not implemented yet");
+		if(!this->head) return nullptr;
+		Token* aux = this->head;
+		this->head = this->head->get_next();
+		aux->set_next(nullptr);
+		return aux;
 	}
 	
 	Token* get_head() {
@@ -130,6 +134,11 @@ public:
 	void push(Token* t) {
 		tokens->push_token(t);
 	}
+	
+	Token* pop() {
+		return tokens->pop_token();
+		
+	}
 
 	Token* create_token(std::string content, Type type) {
 		Token* new_token = new Token(content, type);
@@ -140,9 +149,6 @@ public:
 		tokens->print_stack();
 	}
 	
-	
-
-	//private:
 	bool is_keyword(std::string src) {
 		for(int i = 0; i < sizeof(keywords) / sizeof(keywords[0]); i++){
 			if(src == keywords[i]) return true; 
@@ -151,7 +157,6 @@ public:
 	}
 	
 	bool is_identifier(std::string src) {
-
 		assert(0 && "not implemented yet");
 	}
 
@@ -170,14 +175,20 @@ public:
 	Stack* tokenize_word(std::string src) {
 		assert(0 && "not implemented yet");
 	}
-	
-};
 
+};
 
 int main () {
 	Tokenizer* s = new Tokenizer;
 	Token* t = new Token("int");
+	Token* t2 = new Token("float");
 	s->push(t);
+	s->push(t2);
+	s->print_tokens();
+	Token* n = s->pop();
+	std::cout << "\n\n";
+	n->print_token();
+	std::cout << "\n\n";
 	s->print_tokens();
 	return 0;
 }
