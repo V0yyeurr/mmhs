@@ -2,8 +2,7 @@
 #include<string>
 #include<assert.h>
 
-
-const std::string keywords[] = {"int", "double", "float", "char", "if", "for", "while"};
+const std::string keywords[] = {"int", "double", "float", "char", "if", "for", "while", "nadia"};
 
 enum Type {
 	ERR = -1,
@@ -20,7 +19,7 @@ private:
 	Token* next;
 	std::string content;
 	Type type;
-
+	
 public:
 	Token() {
 		next = nullptr;
@@ -34,6 +33,12 @@ public:
 		this->type = type;
 	}
 
+	Token(std::string content) {
+		this->next = nullptr;
+		this->content = content;
+		this->type = ERR;
+	}
+
 	Type get_type() {
 		return this->type;
 	}
@@ -44,6 +49,22 @@ public:
 	
 	Token* get_next() {
 		return this->next;
+	}
+	
+	void set_next(Token* token){
+		this->next = token;
+	}
+
+	void set_type(Type type){
+		this->type = type;
+	}
+
+	void set_content(std::string content){
+		this->content = content;
+	}
+	
+	void print_token() {
+		std::cout << "content: " << content << "\ntype: " << type << "\nnext: " << next << "\n";
 	}
 };
 
@@ -57,8 +78,14 @@ public:
 		tail = head;
 	}
 	
-	void push_token(Token* n) {
-		assert(0 && "not implemented yet");
+	void push_token(Token* t) {
+		if(head == nullptr) {
+			head = t;
+			tail = head;
+			return;
+		}
+		tail->set_next(t);
+		tail = tail->get_next();
 	}
 	
 	Token* pop_token(){
@@ -71,6 +98,23 @@ public:
 
 	Token* get_tail() {
 		return this->tail;
+	}
+	
+	void set_head(Token* head) {
+		this->head = head;
+	}
+
+	void set_tail(Token* tail) {
+		this->tail = tail;
+	}
+
+	void print_stack() {
+		Token* aux = head;
+		while(aux != nullptr) {
+			std::cout << "current: " << aux << "\n";
+			aux->print_token();
+			aux = aux->get_next();
+		}
 	}
 
 };
@@ -91,19 +135,49 @@ public:
 		Token* new_token = new Token(content, type);
 		return new_token;
 	}
+	
+	void print_tokens() {
+		tokens->print_stack();
+	}
+	
+	
 
-private:
+	//private:
 	bool is_keyword(std::string src) {
 		for(int i = 0; i < sizeof(keywords) / sizeof(keywords[0]); i++){
 			if(src == keywords[i]) return true; 
 		}
 		return false;
 	}
+	
+	bool is_identifier(std::string src) {
 
+		assert(0 && "not implemented yet");
+	}
+
+	bool is_number(std::string src) {
+		assert(0 && "not implemented yet");
+	}
+
+	bool is_string(std::string src) {
+		assert(0 && "not implemented yet");
+	}
+
+	bool is_operation(std::string src) {
+		assert(0 && "not implemented yet");
+	}
+
+	Stack* tokenize_word(std::string src) {
+		assert(0 && "not implemented yet");
+	}
 	
 };
 
+
 int main () {
 	Tokenizer* s = new Tokenizer;
+	Token* t = new Token("int");
+	s->push(t);
+	s->print_tokens();
 	return 0;
 }
