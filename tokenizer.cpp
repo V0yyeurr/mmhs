@@ -160,8 +160,10 @@ public:
 		return false;
 	}
 	
+	//TODO
 	bool is_identifier(std::string src) {
-		return false;
+		assert(0 && "not implemented yet");
+
 	}
 
 	bool is_number(std::string src) {
@@ -172,8 +174,9 @@ public:
 		return true;
 	}
 
+	//TODO
 	bool is_string(std::string src) {
-		return false;
+		assert(0 && "not implemented yet");
 	}
 
 	bool is_operation(std::string src) {
@@ -197,12 +200,11 @@ public:
 		}
 		return create_token(src, ERR);
 	}
-	
 };
 
 int main () {
 	Tokenizer* s = new Tokenizer;
-	Token* test = s->tokenize_word("nadia");
+	Token* test = s->tokenize_word("ead");
 	test->print_token();
 	return 0;
 }
