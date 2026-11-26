@@ -3,6 +3,7 @@
 #include<assert.h>
 
 const std::string keywords[] = {"int", "double", "float", "char", "if", "for", "while", "nadia"};
+const std::string operations[] = {"+", "-", "*", "/", "&", "&&", "||", "|", "%"};
 
 enum Type {
 	ERR = -1,
@@ -133,6 +134,7 @@ public:
 	}
 	
 	void push(Token* t) {
+		if(!t) return;
 		tokens->push_token(t);
 	}
 	
@@ -150,7 +152,7 @@ public:
 	void print_tokens() {
 		tokens->print_stack();
 	}
-	
+
 	bool is_keyword(std::string src) {
 		for(int i = 0; i < sizeof(keywords) / sizeof(keywords[0]); i++){
 			if(src == keywords[i]) return true; 
@@ -159,33 +161,48 @@ public:
 	}
 	
 	bool is_identifier(std::string src) {
-		assert(0 && "not implemented yet");
+		return false;
 	}
 
 	bool is_number(std::string src) {
-		assert(0 && "not implemented yet");
+		for(char c : src) {
+
+			if(!isdigit(c)) return false;
+		}
+		return true;
 	}
 
 	bool is_string(std::string src) {
-		assert(0 && "not implemented yet");
+		return false;
 	}
 
 	bool is_operation(std::string src) {
-		assert(0 && "not implemented yet");
+		for(int i = 0; i < sizeof(operations)/sizeof(operations[0]); i++) {
+			if(src == operations[i]) return true;
+		}
+		return false;
 	}
-
-	Stack* tokenize_word(std::string src) {
-		assert(0 && "not implemented yet");
+	
+	Token* tokenize_word(std::string src) {
+		if(is_keyword(src)) {
+			return create_token(src, ID);
+		}else if(is_operation(src)) {
+			return create_token(src, OP);
+		}else if(is_string(src)) {
+			return create_token(src, STR);
+		}else if(is_number(src)) {
+			return create_token(src, NUM);
+		}else if(is_identifier(src)) {
+			return create_token(src, ID);
+		}
+		return create_token(src, ERR);
 	}
-
+	
 };
 
 int main () {
 	Tokenizer* s = new Tokenizer;
-	Token* t = new Token("int");
-	Token* t2 = new Token("float");
-	s->push(t);
-	s->push(t2);
-	s->print_tokens();
+	Token* test = s->tokenize_word("nadia");
+	test->print_token();
 	return 0;
 }
