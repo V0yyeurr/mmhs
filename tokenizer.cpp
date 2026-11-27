@@ -1,9 +1,10 @@
 #include<iostream>
 #include<string>
 #include<assert.h>
+#include<stack>
 
-const std::string keywords[] = {"int", "double", "float", "char", "if", "for", "while", "nadia"};
-const std::string operations[] = {"+", "-", "*", "/", "&", "&&", "||", "|", "%"};
+const std::string keywords[] = {"int", "double", "float", "char", "if", "for", "while"};
+const std::string operations[] = {"+", "-", "*", "/", "&", "&&", "||", "|", "%", "++", "--"};
 
 enum Type {
 	ERR = -1,
@@ -162,8 +163,8 @@ public:
 	
 	//TODO
 	bool is_identifier(std::string src) {
-		assert(0 && "not implemented yet");
-
+		
+		return false;
 	}
 
 	bool is_number(std::string src) {
@@ -173,12 +174,29 @@ public:
 		}
 		return true;
 	}
+	 
 
-	//TODO
+	//TODO(long term): fix this garbage function is soooo fkng ugly
 	bool is_string(std::string src) {
-		assert(0 && "not implemented yet");
-	}
+		if(src[0] != 39) return false;
+		int counter = 0;
+		std::stack<char> stack;
+		for(char c : src){
 
+			if(c == 39 && stack.empty()){
+				stack.push(c);
+			}else if(c == 39 && !stack.empty()){
+				counter++;
+				stack.pop();
+			}
+		}
+		if(stack.empty() && counter == 1){
+			return true;
+		}else {
+			return false;			
+		}
+	}
+	
 	bool is_operation(std::string src) {
 		for(int i = 0; i < sizeof(operations)/sizeof(operations[0]); i++) {
 			if(src == operations[i]) return true;
@@ -204,7 +222,7 @@ public:
 
 int main () {
 	Tokenizer* s = new Tokenizer;
-	Token* test = s->tokenize_word("ead");
+	Token* test = s->tokenize_word("'int'");
 	test->print_token();
 	return 0;
 }

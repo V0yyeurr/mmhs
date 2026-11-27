@@ -12,5 +12,5 @@ $(BIN): $(OBJ)
 $(OBJ): $(SRC)
 	$(CC) -c $(SRC)
 
-clean:
+clear:
 	rm $(OBJ) $(BIN)
